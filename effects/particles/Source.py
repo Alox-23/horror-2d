@@ -49,6 +49,8 @@ class Source:
                 del self.particles[part_num]
             if part.size < 0:
                 del self.particles[part_num]
+            if part.x <= 0:
+                del self.particles[part_num]
 
     def setSource(self, x, y):
         self.x, self.y = x, y
