@@ -2,7 +2,7 @@ import pygame
 import effects.particles.Particle
 import random
 import time
-import effects.particles.light
+import effects.particles.light as light
 
 
 class Source:
@@ -23,8 +23,8 @@ class Source:
               light_type=light.lightCircle,
               light_color=(50, 50, 50),
               light_radius=5,
-              light_mask=pygame.image.load("light/mask.png"),
-              light_size=10,
+              light_mask=pygame.image.load("effects/particles/light/mask.png"),
+              light_size=20,
               colorkey=(0, 0, 0)):
         for i in range(amount):
             self.particles.append(
@@ -66,7 +66,7 @@ class Source:
         for particle in self.particles:
             particle.draw(screan, color)
 
-    def init_source_light(self, mask= pygame.image.load("light/mask.png"), light_size= 50, colorkey= (0,0,0)):
+    def init_source_light(self, mask= pygame.image.load("effects/particles/light/mask.png"), light_size= 50, colorkey= (0,0,0)):
         self.light = light.lightMask(mask, self.x- light_size//2, self.y-light_size//2, size = light_size, colorkey = colorkey)
 
     def draw_source_light(self, screan):

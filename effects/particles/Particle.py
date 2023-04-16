@@ -1,7 +1,7 @@
 import pygame
 import random
 import time
-import effects.particles.light
+import effects.particles.light as light
 
 
 class Particle:
@@ -40,16 +40,17 @@ class Particle:
                                     colorkey=colorkey)
 
     def update(self, change, rand, rects, b, delta_time):
-        self.change = change
         self.dy += random.uniform(-rand, rand)
         self.dx += random.uniform(-rand, rand)
+        self.change = change
         self.size -= change * delta_time
 
         self.x += self.dx * delta_time
         self.y += self.dy * delta_time
-        self.rect = pygame.Rect(self.x, self.y, self.size * 2, self.size * 2)
+        self.rect = pygame.Rect(self.x, self.y, self.size, self.size)
 
     def draw(self, screan, color):
+        self.light.update(self.x, self.y, change = self.change*2)
         pygame.draw.circle(screan, color,
                            (self.rect.centerx, self.rect.centery), self.size)
 
@@ -57,7 +58,6 @@ class Particle:
         pygame.draw.rect(screan, color, self.rect)
 
     def draw_light(self, screan):
-        self.light.update(self.rect.x, self.rect.y, change = self.change)
         if self.light_type == light.lightCircle:
             self.light.draw(screan)
         elif self.light_type == light.lightMask:

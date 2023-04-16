@@ -1,8 +1,8 @@
 import pygame
-from light.lightCircle import lightCircle
+from effects.particles.light.lightCircle import lightCircle
 
 class lightMask(lightCircle):
-	def __init__(self, mask, x, y, size = 10, colorkey = (0,0,0)):
+	def __init__(self, mask, x, y, size = 10, colorkey = (0,0,0), light_scale = 2):
 		self.img = mask
 		self.size = size
 		self.img = pygame.transform.scale(self.img, (size, size))

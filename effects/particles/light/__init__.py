@@ -1,2 +1,2 @@
-from light.lightCircle import lightCircle
-from light.lightMask import lightMask
+from effects.particles.light.lightCircle import lightCircle
+from effects.particles.light.lightMask import lightMask
