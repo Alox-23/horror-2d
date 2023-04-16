@@ -1,5 +1,5 @@
 import pygame
-from particles.Particle import Particle
+from effects.particles.Particle import Particle
 
 class gravParticle(Particle):
     def update(self, change, rand, rects, b, delta_time):

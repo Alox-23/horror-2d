@@ -1,7 +1,7 @@
 import pygame
 import random
 import time
-import light
+import effects.particles.light
 
 
 class Particle:

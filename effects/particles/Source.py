@@ -1,8 +1,8 @@
 import pygame
-import particles.Particle
+import effects.particles.Particle
 import random
 import time
-import light
+import effects.particles.light
 
 
 class Source:

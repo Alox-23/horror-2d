@@ -1,7 +1,7 @@
 import pygame
-from particles.gravParticle import gravParticle
+from effects.particles.gravParticle import gravParticle
 import math
-import light
+import effects.light
 
 
 class pycParticle(gravParticle):
