@@ -50,7 +50,7 @@ class Particle:
         self.rect = pygame.Rect(self.x, self.y, self.size, self.size)
 
     def draw(self, screan, color):
-        self.light.update(self.x, self.y, change = self.change*2)
+        self.light.update(self.x, self.y, change = self.change*(self.light.size // (self.size+0.1)))
         pygame.draw.circle(screan, color,
                            (self.rect.centerx, self.rect.centery), self.size)
 
