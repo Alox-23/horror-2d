@@ -1,12 +1,12 @@
 import pygame
 
-class ground:
-    def __init__(self, x, y):
-        self.img = pygame.image.load("img/ground.png")
-        self.rect = self.img.get_rect()
+class ground(pygame.sprite.Sprite):
+    def __init__(self,pos):
+        super().__init__()
+        self.image = pygame.image.load("img/ground.png")
+        self.rect = self.image.get_rect()
 
-        self.rect.centerx = x
-        self.rect.centery = y
+        self.rect.center = pos
 
     def draw(self, screan):
-        screan.blit(self.img, self.rect)
+        screan.blit(self.image, self.rect)
