@@ -31,16 +31,16 @@ class player(pygame.sprite.Sprite):
         screan.blit(self.image, self.rect)
 
     def collision(self, rects):
-        self.rect.centerx += self.direction.x * self.speed
-        self.rect.centery += self.direction.y * self.speed
-        for rect in rects:   
+        for rect in rects:
+            self.rect.centerx += self.direction.x * self.speed
+            self.rect.centery += self.direction.y * self.speed
             if self.rect.colliderect(rect):
-                if abs(self.rect.bottom - rect.top) < self.speed and self.direction.y > 0:
-                    self.rect.centery -= self.direction.y * self.speed
-                if abs(self.rect.top - rect.bottom) < self.speed and self.direction.y < 0:
-                    self.rect.centery -= self.direction.y * self.speed
-                if abs(self.rect.right - rect.left) < self.speed and self.direction.x < 0:
-                    self.rect.centerx -= self.direction.x * self.speed
-                if abs(self.rect.left - rect.right) < self.speed and self.direction.x > 0:
+                if abs(self.rect.bottom - rect.top) < 10:
                     print("ahh dady")
-                    self.rect.centerx -= self.direction.x * self.speed
+                    self.direction.y *= -1
+                if abs(self.rect.top - rect.bottom) < 10:
+                    self.direction.y *= -1
+                if abs(self.rect.right - rect.left) < 10:
+                    self.direction.x *= -1
+                if abs(self.rect.right - rect.left) < 10:
+                    self.direction.x *= -1

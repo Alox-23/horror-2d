@@ -19,6 +19,11 @@ class CameraGroup(pygame.sprite.Group):
         for sprite in self.sprites():
             sprite.rect.centerx -= self.scroll.x
             sprite.rect.centery -= self.scroll.y
+
+    def update_rect_scroll(self, rects):
+        for rect in rects:
+            rect.x -= self.scroll.x
+            rect.y -= self.scroll.y
     
     def set_focal_point(self, obj):
         self.focal_point = obj
