@@ -9,8 +9,9 @@ import random
 class level:
     def __init__(self):
         self.screan = pygame.display.set_mode((HRES, VRES))
-        self.display = pygame.Surface((HRES, VRES))
+        self.scale_factor = 1
         self.t2 = 0
+        self.display = pygame.Surface((HRES//self.scale_factor, VRES//self.scale_factor))
         self.clock = pygame.time.Clock()
         self.CameraGroup = sprites.CameraGroup.CameraGroup(self.display)
         self.player = sprites.player.player((HRES//2,VRES//2), self.CameraGroup)
@@ -19,6 +20,7 @@ class level:
 
     def run(self):
         self.get_input()
+        self.display = pygame.Surface((HRES//self.scale_factor, VRES//self.scale_factor))
         self.display.fill((50, 50, 100))
         self.dt = self.get_delta_time()
         self.update_sprites()
@@ -30,7 +32,12 @@ class level:
         self.clock.tick(FPS)
 
     def get_input(self):
-        pass 
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_UP]:
+            self.scale_factor += 0.01
+        if keys[pygame.K_DOWN]:
+            self.scale_factor -= 0.01
 		
     def get_delta_time(self):
         t = self.clock.get_time()
@@ -44,7 +51,8 @@ class level:
 
     def update_CameraGroup(self):
         self.CameraGroup.set_focal_point(self.player)
-        self.CameraGroup.update_scroll()
+        self.CameraGroup.update_display(self.display)
+        self.CameraGroup.update_scroll(self.scale_factor)
         self.CameraGroup.update_rect_scroll(self.collision_rects)
         self.CameraGroup.update()
 
