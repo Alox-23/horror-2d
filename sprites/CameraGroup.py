@@ -35,7 +35,6 @@ class CameraGroup(pygame.sprite.Group):
         self.bg.draw(self.screan)
         for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
             if type(sprite) != type(self.bg):
-                pygame.draw.rect(self.screan, (255, 0, 0), sprite.rect)
-                sprite.draw(self.screan) 
+                sprite.draw(.screan) 
 
         
