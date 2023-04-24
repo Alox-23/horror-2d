@@ -5,12 +5,14 @@ import sprites.tree
 import sprites.ground
 import sprites.CameraGroup
 import random
+import time
 
 class level:
     def __init__(self):
         self.screan = pygame.display.set_mode((HRES, VRES))
         self.scale_factor = 1
-        self.t2 = 0
+        self.time = 0
+        self.dt = 0
         self.display = pygame.Surface((HRES//self.scale_factor, VRES//self.scale_factor))
         self.clock = pygame.time.Clock()
         self.CameraGroup = sprites.CameraGroup.CameraGroup(self.display)
@@ -22,7 +24,7 @@ class level:
         self.get_input()
         self.display = pygame.Surface((HRES//self.scale_factor, VRES//self.scale_factor))
         self.display.fill((50, 50, 100))
-        self.dt = self.get_delta_time()
+        self.update_time()
         self.update_sprites()
         self.update_player()
         self.draw()
@@ -38,11 +40,13 @@ class level:
             self.scale_factor += 0.01
         if keys[pygame.K_DOWN]:
             self.scale_factor -= 0.01
+        if keys[pygame.K_e]:
+            self.CameraGroup.set_shake_time(30)
 		
-    def get_delta_time(self):
-        t = self.clock.get_time()
-        self.dt = (t-self.t2) / 1000.0
-        self.t2 = t
+    def update_time(self):
+        self.dt = time.time()-self.time
+        self.dt *= tFPS
+        self.time = time.time()
 		
     def draw(self):
         self.CameraGroup.ysort_draw()
@@ -53,8 +57,10 @@ class level:
         self.CameraGroup.set_focal_point(self.player)
         self.CameraGroup.update_display(self.display)
         self.CameraGroup.update_scroll(self.scale_factor)
+        self.CameraGroup.update_dt(self.dt)
         self.CameraGroup.update_rect_scroll(self.collision_rects)
         self.CameraGroup.update()
+       
 
     def update_sprites(self):
         self.update_CameraGroup()
