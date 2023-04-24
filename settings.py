@@ -2,3 +2,4 @@ HRES = 700
 VRES = 500
 
 FPS = 60
+tFPS = 60

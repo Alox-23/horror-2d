@@ -16,7 +16,10 @@ class Dummy(pygame.sprite.Sprite):
             animations[animation_types[row]] = animation_list
 
         return animations
-    
+            
+    def update_dt(self, dt):
+        self.dt = dt
+        
     def update_animation(self):
         self.ANIMATION_COOLDOWN = 200 
         self.image = self.animations[self.action][self.animation_index]

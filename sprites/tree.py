@@ -1,6 +1,7 @@
 import pygame
+import sprites.dummy
 
-class tree(pygame.sprite.Sprite):
+class tree(sprites.dummy.Dummy):
     def __init__(self, pos, group):
         super().__init__(group)
         self.image = pygame.image.load("img/tree.png")

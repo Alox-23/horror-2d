@@ -7,6 +7,9 @@ class ground(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         self.rect.center = pos
+    
+    def update_dt(self, dt):
+        self.dt = dt
 
     def draw(self, screan):
         screan.blit(self.image, self.rect)
