@@ -4,7 +4,7 @@ import sprites.dummy
 class player(sprites.dummy.Dummy):
     def __init__(self, pos, group):
         super().__init__(group)
-        self.speed = 3
+        self.speed = 2
         self.coll_toll = self.speed+0.1
         self.dt = 1
         self.direction = pygame.math.Vector2()
@@ -39,10 +39,9 @@ class player(sprites.dummy.Dummy):
             self.flip.y = 0
     
     def update(self):
-        self.update_animation()
+        self.update_animation(300//self.speed)
         self.input()
         self.update_action()
-        print(self.dt)
 
     def update_action(self):
         if self.direction.x == 0 and self.direction.y == 0:
