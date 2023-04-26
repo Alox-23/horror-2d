@@ -20,8 +20,8 @@ class Dummy(pygame.sprite.Sprite):
     def update_dt(self, dt):
         self.dt = dt
         
-    def update_animation(self):
-        self.ANIMATION_COOLDOWN = 200 
+    def update_animation(self, cool=200):
+        self.ANIMATION_COOLDOWN = cool
         self.image = self.animations[self.action][self.animation_index]
         if pygame.time.get_ticks() - self.animation_time > self.ANIMATION_COOLDOWN:
             self.animation_index += 1
