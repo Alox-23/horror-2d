@@ -1,12 +1,13 @@
 import pygame
+from settings import *
 import sprites.dummy
 
 class player(sprites.dummy.Dummy):
     def __init__(self, pos, group):
         super().__init__(group)
         self.speed = 2
-        self.coll_toll = self.speed+0.1
         self.dt = 1
+        self.coll_toll = self.speed+1.1
         self.direction = pygame.math.Vector2()
 
         self.animations = self.load_animation(pygame.image.load("img/player/player1.png"), [48, 48], 6, "idle", "idle2", "idle3", "run", "run_side", "run_up")
@@ -80,13 +81,9 @@ class player(sprites.dummy.Dummy):
             if self.rect.colliderect(rect):
                 if abs(self.rect.top - rect.bottom) < self.coll_toll:
                     self.rect.top = rect.bottom
-                    self.rect.y += 1
                 elif abs(self.rect.bottom - rect.top) < self.coll_toll:
                     self.rect.bottom = rect.top
-                    self.rect.y -= 1
                 elif abs(self.rect.right - rect.left) < self.coll_toll:
                     self.rect.right = rect.left 
-                    self.rect.x -= 1
                 elif abs(self.rect.left - rect.right) < self.coll_toll:
                     self.rect.left = rect.right
-                    self.rect.x += 1

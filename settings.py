@@ -2,5 +2,5 @@ HRES = 700
 VRES = 500
 TILE_SIZE = 32
 
-FPS = 60
+FPS = 120
 tFPS = 60

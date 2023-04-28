@@ -7,14 +7,10 @@ import classes.objRend
 import random
 import classes.time
 import time
+import classes.map
 
 class level:
     def __init__(self):
-        self.time = classes.time.Time() 
-        self.CameraGroup = classes.objRend.objRend()
-        self.player = sprites.player.player((HRES//2,VRES//2), self.CameraGroup)
-        self.CameraGroup.set_focal_point(self.player)
-        self.collision_rects = [pygame.Rect(random.randint(-1500, 1500), random.randint(-1500, 1500), random.randint(1,500), random.randint(1,50)) for i in range(100)]
         self.setup_level()
 
     def run(self):
@@ -54,5 +50,11 @@ class level:
         self.player.collision(self.collision_rects)
 	
     def setup_level(self):
-        for i in range(20):
-            sprites.tree.tree((random.randint(-1500, 1500), random.randint(-1500, 1500)), self.CameraGroup)
+        self.time = classes.time.Time() 
+        self.CameraGroup = classes.objRend.objRend()
+        self.player = sprites.player.player((HRES//2,VRES//2), self.CameraGroup)
+        self.CameraGroup.set_focal_point(self.player)
+        self.collision_rects = [pygame.Rect(random.randint(-1500, 1500), random.randint(-1500, 1500), random.randint(1,500), random.randint(1,50)) for i in range(100)]
+        self.map = classes.map.Map()
+        self.map.setup_level()
+        self.CameraGroup.set_tiles(self.map.get_tiles()) 

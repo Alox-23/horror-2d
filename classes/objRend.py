@@ -13,6 +13,7 @@ class objRend(pygame.sprite.Group):
         self.screan_shake_time = 0
         self.bg = sprites.ground.ground((HRES//2,VRES//2))
         self.add(self.bg)
+        self.tiles = []
         
 
     def update_scroll(self, shake_intensity = 4):
@@ -31,6 +32,18 @@ class objRend(pygame.sprite.Group):
     
     def set_shake_time(self, time):
         self.screan_shake_time = time
+    
+    def set_tiles(self, tiles):
+        self.tiles = tiles
+
+    def update_tiles(self):
+        for tile in self.tiles:
+            tile.update()
+
+    def draw_tiles(self):
+        for tile in self.tiles:
+            tile.draw(self.display)
+
 
     def update_dt(self, dt):
         for sprite in self.sprites():
@@ -50,6 +63,9 @@ class objRend(pygame.sprite.Group):
         self.update_dt(dt)
         self.update_rect_scroll(rects)
         self.update() 
+    
+    def update_tiles(self):
+        pass
 
     def update_display(self):
         self.display = pygame.Surface((HRES//self.scale_factor, VRES//self.scale_factor))
