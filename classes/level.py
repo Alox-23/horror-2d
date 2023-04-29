@@ -20,9 +20,9 @@ class level:
         self.update_player()
         self.draw()
         pygame.display.set_caption(str(int(self.time.clock.get_fps())))
-        self.CameraGroup.draw()
         if self.CameraGroup.screan_shake_time:
-            self.CameraGroup.screan_shake(40)
+            self.CameraGroup.screan_shake(40) 
+        self.CameraGroup.draw()
         pygame.display.update()
 
     def get_input(self):
@@ -39,12 +39,14 @@ class level:
 
 		
     def draw(self):
+        self.CameraGroup.draw_tiles(self.tiles)
         self.CameraGroup.ysort_draw()
         for i in self.collision_rects:
             pygame.draw.rect(self.CameraGroup.display, (255, 255, 255), i)
+        
 
     def update_sprites(self):
-        self.CameraGroup.update_all(self.time.dt, self.collision_rects)
+        self.CameraGroup.update_all(self.time.dt, self.collision_rects, self.tiles)
 
     def update_player(self):
         self.player.collision(self.collision_rects)
@@ -57,4 +59,5 @@ class level:
         self.collision_rects = [pygame.Rect(random.randint(-1500, 1500), random.randint(-1500, 1500), random.randint(1,500), random.randint(1,50)) for i in range(100)]
         self.map = classes.map.Map()
         self.map.setup_level()
-        self.CameraGroup.set_tiles(self.map.get_tiles()) 
+        self.tiles = self.map.get_tiles()
+        print(self.tiles)

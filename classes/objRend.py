@@ -33,15 +33,12 @@ class objRend(pygame.sprite.Group):
     def set_shake_time(self, time):
         self.screan_shake_time = time
     
-    def set_tiles(self, tiles):
-        self.tiles = tiles
+    def update_tiles(self, tiles):
+        for tile in tiles:
+            tile.update(self.scroll.x, self.scroll.y)
 
-    def update_tiles(self):
-        for tile in self.tiles:
-            tile.update()
-
-    def draw_tiles(self):
-        for tile in self.tiles:
+    def draw_tiles(self, tiles):
+        for tile in tiles:
             tile.draw(self.display)
 
 
@@ -57,24 +54,21 @@ class objRend(pygame.sprite.Group):
     def set_focal_point(self, obj):
         self.focal_point = obj
     
-    def update_all(self, dt, rects):
+    def update_all(self, dt, rects, tiles):
         self.update_display()
         self.update_scroll()
+        self.update_tiles(tiles)
         self.update_dt(dt)
         self.update_rect_scroll(rects)
         self.update() 
-    
-    def update_tiles(self):
-        pass
 
     def update_display(self):
         self.display = pygame.Surface((HRES//self.scale_factor, VRES//self.scale_factor))
 
     def draw(self):
         self.screan.blit(pygame.transform.scale(self.display, (HRES, VRES)), (0,0))
-        
+            
     def ysort_draw(self):
-        self.bg.draw(self.display)
         for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
             if type(sprite) != type(self.bg):
                 sprite.draw(self.display) 
