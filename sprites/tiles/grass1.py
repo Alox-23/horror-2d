@@ -10,6 +10,6 @@ class Grass1(pygame.sprite.Sprite):
     def draw(self, screan):
         screan.blit(self.img, self.rect)
 
-    def update(self, dx, dy):
+    def update_scroll(self, dx, dy):
         self.rect.centerx -= dx
         self.rect.centery -= dy
