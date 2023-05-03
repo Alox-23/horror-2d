@@ -99,13 +99,14 @@ class Map:
     def get_tiles(self):
         tiles = []
         for row in self.tile_dat:
+            temp_list = []
             for tile in row:
                 if tile[1] == 1:
-                    tiles.append(sprites.tiles.grass.Grass(tile[0]))
+                    temp_list.append(sprites.tiles.grass.Grass(tile[0]))
 
                 elif tile[1] == 0:
-                    tiles.append(sprites.tiles.grass1.Grass1(tile[0]))
-
+                    temp_list.append(sprites.tiles.grass1.Grass1(tile[0]))
+            tiles.append(temp_list)
         return tiles
     
     def get_plants(self):
@@ -132,15 +133,14 @@ class Map:
                 temp_row.append([(x,y), tile])
             self.tile_dat.append(sorted(temp_row, key=lambda i: i[1]))
 
-    def draw_tiles(self, screan, render_dist, rend_posx, rend_posy):
-        render_tiles = self.tiles[rend_posy-render_dist//2:rend_posy+render_dist//2][rend_posx-render_dist//2:rend_posx+render_dist//2]
-        os.system("clear")
-        for row in render_tiles:
-            print(row)
-        print("____________________________________")
-        for i in render_tiles:
-            i.draw(screan)
+    def draw_tiles(self, screan):
+        for i in self.tiles:
+            for j in i:
+                if j.rect.x > -TILE_SIZE and j.rect.x < HRES+TILE_SIZE and j.rect.y > -TILE_SIZE and j.rect.y < HRES+TILE_SIZE:
+                    j.draw(screan)
+                
 
     def update_tiles(self, dx, dy):
         for i in self.tiles:
-            i.update_scroll(dx, dy)
+            for j in i:
+                j.update_scroll(dx, dy)

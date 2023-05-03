@@ -44,6 +44,8 @@ class player(sprites.dummy.Dummy):
             self.flip.y = 0
     
     def update(self):
+        print(self.rect.centerx)
+        print(self.rect.centery)
         self.rect.centerx += (self.direction.x * self.speed)*self.dt
         self.rect.centery += (self.direction.y * self.speed)*self.dt
         self.update_animation(300//self.speed)
@@ -81,13 +83,14 @@ class player(sprites.dummy.Dummy):
             screan.blit(self.image, ((self.rect.x - self.image.get_width()//2)+6, self.rect.y - self.image.get_width() // 2))
         
     def collision(self, rects): 
-        for rect in rects:   
+
+        for rect in rects:  
             if self.rect.colliderect(rect):
                 if abs(self.rect.top - rect.bottom) < self.coll_toll:
                     self.rect.top = rect.bottom
                 elif abs(self.rect.bottom - rect.top) < self.coll_toll:
                     self.rect.bottom = rect.top
                 elif abs(self.rect.right - rect.left) < self.coll_toll:
-                    self.rect.right = rect.left 
+                    self.rect.right = rect.left  
                 elif abs(self.rect.left - rect.right) < self.coll_toll:
                     self.rect.left = rect.right

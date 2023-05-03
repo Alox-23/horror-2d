@@ -39,7 +39,7 @@ class Level:
 
 		
     def draw(self):
-        self.map.draw_tiles(self.CameraGroup.display, 10, int(self.CameraGroup.focal_point.rect.centerx)//TILE_SIZE, int(self.CameraGroup.focal_point.rect.centery)//TILE_SIZE)
+        self.map.draw_tiles(self.CameraGroup.display)
         self.CameraGroup.ysort_draw()
         for i in self.collision_rects:
             pygame.draw.rect(self.CameraGroup.display, (255, 255, 255), i)
