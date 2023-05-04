@@ -1,13 +1,17 @@
 import pygame
 import sprites.dummy
 
-class tree(sprites.dummy.Dummy):
-    def __init__(self, pos, group):
-        super().__init__(group)
+class Tree(sprites.dummy.Dummy):
+    def __init__(self, pos, _type):
+        super().__init__()
+        self.type = _type
         self.image = pygame.image.load("img/tree.png")
-        self.rect = self.image.get_rect()
         self.image.set_colorkey((255, 255, 255))
-        self.rect.center = pos
+        self.rect = pygame.Rect(pos, (35, 15))
+
+    def update_scroll(self ,dx, dy):
+        self.rect.centerx -= dx
+        self.rect.centery -= dy
 
     def draw(self, screan):
-        screan.blit(self.image, self.rect)
+        screan.blit(self.image, ((self.rect.x - self.image.get_width()//2)+11, self.rect.y - self.image.get_width() // 2 - 70))

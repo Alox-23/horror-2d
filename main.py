@@ -1,14 +1,14 @@
 import pygame
 from settings import *
-from classes.level import level
+import classes.level
 
 pygame.init()
-lev = level()
+game = classes.level.Level()
 running = True
 
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    lev.run()
+    game.run()
 pygame.quit()

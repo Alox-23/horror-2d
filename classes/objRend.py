@@ -11,8 +11,8 @@ class objRend(pygame.sprite.Group):
         self.scroll = pygame.math.Vector2()
         self.delay = 20
         self.screan_shake_time = 0
-        self.bg = sprites.ground.ground((HRES//2,VRES//2))
-        self.add(self.bg)
+        self.sprite_rects = []
+        self.tiles = []
         
 
     def update_scroll(self, shake_intensity = 4):
@@ -20,8 +20,7 @@ class objRend(pygame.sprite.Group):
         self.scroll.y = (self.focal_point.rect.centery-self.scroll.y-(VRES//self.scale_factor)//2)//self.delay 
 
         for sprite in self.sprites():
-            sprite.rect.centerx -= self.scroll.x
-            sprite.rect.centery -= self.scroll.y
+            sprite.update_scroll(self.scroll.x, self.scroll.y)
 
     def screan_shake(self, intensity):
         self.scroll.x -= random.randint(0,intensity)-intensity
@@ -31,7 +30,7 @@ class objRend(pygame.sprite.Group):
     
     def set_shake_time(self, time):
         self.screan_shake_time = time
-
+    
     def update_dt(self, dt):
         for sprite in self.sprites():
             sprite.update_dt(dt)
@@ -56,11 +55,9 @@ class objRend(pygame.sprite.Group):
 
     def draw(self):
         self.screan.blit(pygame.transform.scale(self.display, (HRES, VRES)), (0,0))
-        
+            
     def ysort_draw(self):
-        self.bg.draw(self.display)
         for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
-            if type(sprite) != type(self.bg):
-                sprite.draw(self.display) 
+            sprite.draw(self.display) 
 
         

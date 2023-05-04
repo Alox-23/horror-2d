@@ -1,12 +1,13 @@
 import pygame
+from settings import *
 import sprites.dummy
 
 class player(sprites.dummy.Dummy):
     def __init__(self, pos, group):
         super().__init__(group)
         self.speed = 2
-        self.coll_toll = self.speed+0.1
         self.dt = 1
+        self.coll_toll = self.speed+1.1
         self.direction = pygame.math.Vector2()
 
         self.animations = self.load_animation(pygame.image.load("img/player/player1.png"), [48, 48], 6, "idle", "idle2", "idle3", "run", "run_side", "run_up")
@@ -16,6 +17,10 @@ class player(sprites.dummy.Dummy):
         self.flip = pygame.math.Vector2()
 
         self.rect = pygame.Rect(pos, (13, 19))
+    
+    def update_scroll(self, dx, dy):
+        self.rect.centerx -= dx
+        self.rect.centery -= dy
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -39,6 +44,10 @@ class player(sprites.dummy.Dummy):
             self.flip.y = 0
     
     def update(self):
+        print(self.rect.centerx)
+        print(self.rect.centery)
+        self.rect.centerx += (self.direction.x * self.speed)*self.dt
+        self.rect.centery += (self.direction.y * self.speed)*self.dt
         self.update_animation(300//self.speed)
         self.input()
         self.update_action()
@@ -73,20 +82,15 @@ class player(sprites.dummy.Dummy):
         else:
             screan.blit(self.image, ((self.rect.x - self.image.get_width()//2)+6, self.rect.y - self.image.get_width() // 2))
         
-    def collision(self, rects):
-        self.rect.centerx += (self.direction.x * self.speed)*self.dt
-        self.rect.centery += (self.direction.y * self.speed)*self.dt
-        for rect in rects:   
+    def collision(self, rects): 
+
+        for rect in rects:  
             if self.rect.colliderect(rect):
                 if abs(self.rect.top - rect.bottom) < self.coll_toll:
                     self.rect.top = rect.bottom
-                    self.rect.y += 1
                 elif abs(self.rect.bottom - rect.top) < self.coll_toll:
                     self.rect.bottom = rect.top
-                    self.rect.y -= 1
                 elif abs(self.rect.right - rect.left) < self.coll_toll:
-                    self.rect.right = rect.left 
-                    self.rect.x -= 1
+                    self.rect.right = rect.left  
                 elif abs(self.rect.left - rect.right) < self.coll_toll:
                     self.rect.left = rect.right
-                    self.rect.x += 1
