@@ -13,7 +13,9 @@ class objRend(pygame.sprite.Group):
         self.screan_shake_time = 0
         self.sprite_rects = []
         self.tiles = []
-        
+        indent = -600
+        self.render_rect = pygame.Rect(0, 0, HRES//self.scale_factor-indent, VRES//self.scale_factor-indent)
+        self.render_rect.center = (HRES//(self.scale_factor+2),VRES//(self.scale_factor+2))
 
     def update_scroll(self, shake_intensity = 4):
         self.scroll.x = (self.focal_point.rect.centerx-self.scroll.x-(HRES//self.scale_factor)//2)//self.delay
@@ -51,13 +53,17 @@ class objRend(pygame.sprite.Group):
         self.update() 
 
     def update_display(self):
+        self.render_rect.center = (HRES//(self.scale_factor+2),VRES//(self.scale_factor+2))
         self.display = pygame.Surface((HRES//self.scale_factor, VRES//self.scale_factor))
 
     def draw(self):
         self.screan.blit(pygame.transform.scale(self.display, (HRES, VRES)), (0,0))
             
     def ysort_draw(self):
+        obj_rendered = 0
         for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
-            sprite.draw(self.display) 
-
+            if pygame.Rect.colliderect(sprite.rect, self.render_rect):
+                sprite.draw(self.display)
+                obj_rendered += 1
+        print(f"Sprite objects rendered: {obj_rendered}")
         

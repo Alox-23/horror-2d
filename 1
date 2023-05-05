@@ -7,6 +7,7 @@ class player(sprites.dummy.Dummy):
         super().__init__(group)
         self.speed = 2
         self.dt = 1
+        self.coll_toll = 1000
         self.direction = pygame.math.Vector2()
 
         self.animations = self.load_animation(pygame.image.load("img/player/player1.png"), [48, 48], 6, "idle", "idle2", "idle3", "run", "run_side", "run_up")
@@ -42,8 +43,9 @@ class player(sprites.dummy.Dummy):
             self.flip.x = 1
             self.flip.y = 0
     
-    def update(self): 
-        self.coll_toll = (self.speed)*self.dt+self.speed
+    def update(self):
+        print(self.rect.centerx)
+        print(self.rect.centery)
         self.rect.centerx += (self.direction.x * self.speed)*self.dt
         self.rect.centery += (self.direction.y * self.speed)*self.dt
         self.update_animation(300//self.speed)
@@ -81,6 +83,7 @@ class player(sprites.dummy.Dummy):
             screan.blit(self.image, ((self.rect.x - self.image.get_width()//2)+6, self.rect.y - self.image.get_width() // 2))
         
     def collision(self, rects): 
+        print(self.coll_toll)
         for rect in rects:  
             if self.rect.colliderect(rect):
                 if abs(self.rect.top - rect.bottom) < self.coll_toll:

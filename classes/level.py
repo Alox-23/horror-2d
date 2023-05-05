@@ -56,7 +56,7 @@ class Level:
     def setup_level(self):
         self.time = classes.time.Time() 
         self.CameraGroup = classes.objRend.objRend()
-        self.player = sprites.player.player((HRES//2,VRES//2), self.CameraGroup)
+        self.player = sprites.player.player((1000, 1000), self.CameraGroup)
         self.CameraGroup.set_focal_point(self.player)
         self.map = classes.map.Map()
         self.map.setup_level()

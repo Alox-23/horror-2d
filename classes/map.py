@@ -84,7 +84,7 @@ class Map:
                 ]
         self.plant_dat = []
         self.create_plant_dat(pygame.math.Vector2(0,0), pygame.math.Vector2(len(self.tile_map[0])*TILE_SIZE, len(self.tile_map)*TILE_SIZE),100)
-        self.create_tile_dat()
+        self.tile_dat = self.create_tile_dat()
         self.plants = self.get_plants()
         self.tiles = self.get_tiles()
     
@@ -92,7 +92,7 @@ class Map:
         rects = []
         for plant in self.plants:
             if plant.type == _type:
-                rects.append(plant.rect)
+                rects.append(plant.coll_rect)
 
         return rects
 
@@ -117,26 +117,26 @@ class Map:
 
         return plants
 
-
     def create_plant_dat(self, start_cords, end_cords, intensity):
         print(start_cords, end_cords)
         for i in range(intensity):
             self.plant_dat.append([(random.randint(start_cords.x, end_cords.x), random.randint(start_cords.y, end_cords.y)), "plain"])
 
     def create_tile_dat(self):
-        self.tile_dat = []
+        tile_dat = []
         for num, row in enumerate(self.tile_map):
             y = num * TILE_SIZE
             temp_row = []
             for index, tile in enumerate(row):
                 x = index * TILE_SIZE
                 temp_row.append([(x,y), tile])
-            self.tile_dat.append(sorted(temp_row, key=lambda i: i[1]))
+            tile_dat.append(sorted(temp_row, key=lambda i: i[1]))
+        return tile_dat
 
     def draw_tiles(self, screan):
         for i in self.tiles:
             for j in i:
-                if j.rect.x > -TILE_SIZE and j.rect.x < HRES+TILE_SIZE and j.rect.y > -TILE_SIZE and j.rect.y < HRES+TILE_SIZE:
+                if j.rect.x > -TILE_SIZE*2 and j.rect.x < HRES+TILE_SIZE and j.rect.y > -TILE_SIZE*2 and j.rect.y < HRES+TILE_SIZE:
                     j.draw(screan)
                 
 
