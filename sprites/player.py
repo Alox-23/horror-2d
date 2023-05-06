@@ -7,7 +7,6 @@ class player(sprites.dummy.Dummy):
         super().__init__(group)
         self.speed = 2
         self.dt = 1
-        self.coll_toll = self.speed+1.1
         self.direction = pygame.math.Vector2()
 
         self.animations = self.load_animation(pygame.image.load("img/player/player1.png"), [48, 48], 6, "idle", "idle2", "idle3", "run", "run_side", "run_up")
@@ -15,12 +14,16 @@ class player(sprites.dummy.Dummy):
         self.animation_time = pygame.time.get_ticks()
         self.animation_index = 0
         self.flip = pygame.math.Vector2()
+        self.image = self.animations[self.action][self.animation_index]
 
-        self.rect = pygame.Rect(pos, (13, 19))
-    
+        self.y_intercept = -6
+        self.rect = self.image.get_rect()
+        self.rect.center = pos
+        self.coll_rect = pygame.Rect(pos, (20, 21))
+        self.coll_rect.center = pos 
     def update_scroll(self, dx, dy):
-        self.rect.centerx -= dx
-        self.rect.centery -= dy
+        self.coll_rect.centerx -= dx
+        self.coll_rect.centery -= dy
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -43,13 +46,13 @@ class player(sprites.dummy.Dummy):
             self.flip.x = 1
             self.flip.y = 0
     
-    def update(self):
-        print(self.rect.centerx)
-        print(self.rect.centery)
-        self.rect.centerx += (self.direction.x * self.speed)*self.dt
-        self.rect.centery += (self.direction.y * self.speed)*self.dt
+    def update(self): 
+        self.coll_rect.centerx += (self.direction.x * self.speed)*self.dt
+        self.coll_rect.centery += (self.direction.y * self.speed)*self.dt
         self.update_animation(300//self.speed)
         self.input()
+        self.coll_toll = (self.speed)*self.dt+self.speed
+        self.rect.center = (self.coll_rect.centerx, self.coll_rect.centery+self.y_intercept)
         self.update_action()
 
     def update_action(self):
@@ -77,20 +80,20 @@ class player(sprites.dummy.Dummy):
                 self.action = "run_side"
              
     def draw(self, screan):
+        pygame.draw.rect(screan, (255, 0, 0), self.coll_rect)
         if self.flip.x == -1:
-            screan.blit(pygame.transform.flip(self.image, True, False), ((self.rect.x - self.image.get_width()//2)+6, self.rect.y - self.image.get_width() // 2))
+            screan.blit(pygame.transform.flip(self.image, True, False), self.rect)
         else:
-            screan.blit(self.image, ((self.rect.x - self.image.get_width()//2)+6, self.rect.y - self.image.get_width() // 2))
-        
-    def collision(self, rects): 
+            screan.blit(self.image, self.rect) 
 
+    def collision(self, rects): 
         for rect in rects:  
-            if self.rect.colliderect(rect):
-                if abs(self.rect.top - rect.bottom) < self.coll_toll:
-                    self.rect.top = rect.bottom
-                elif abs(self.rect.bottom - rect.top) < self.coll_toll:
-                    self.rect.bottom = rect.top
-                elif abs(self.rect.right - rect.left) < self.coll_toll:
-                    self.rect.right = rect.left  
-                elif abs(self.rect.left - rect.right) < self.coll_toll:
-                    self.rect.left = rect.right
+            if self.coll_rect.colliderect(rect):
+                if abs(self.coll_rect.top - rect.bottom) < self.coll_toll:
+                    self.coll_rect.top = rect.bottom
+                elif abs(self.coll_rect.bottom - rect.top) < self.coll_toll:
+                    self.coll_rect.bottom = rect.top
+                elif abs(self.coll_rect.right - rect.left) < self.coll_toll:
+                    self.coll_rect.right = rect.left  
+                elif abs(self.coll_rect.left - rect.right) < self.coll_toll:
+                    self.coll_rect.left = rect.right

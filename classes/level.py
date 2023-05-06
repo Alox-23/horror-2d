@@ -8,6 +8,7 @@ import random
 import classes.time
 import time
 import classes.map
+import os
 
 class Level:
     def __init__(self):
@@ -24,6 +25,7 @@ class Level:
             self.CameraGroup.screan_shake(40) 
         self.CameraGroup.draw()
         pygame.display.update()
+        print("______________________")
 
     def get_input(self):
         keys = pygame.key.get_pressed()
@@ -39,7 +41,7 @@ class Level:
 
 		
     def draw(self):
-        self.map.draw_tiles(self.CameraGroup.display)
+        self.map.draw_tiles(self.CameraGroup.display, self.CameraGroup.render_rect)
         self.CameraGroup.ysort_draw()
         for i in self.collision_rects:
             pygame.draw.rect(self.CameraGroup.display, (255, 255, 255), i)
@@ -56,7 +58,7 @@ class Level:
     def setup_level(self):
         self.time = classes.time.Time() 
         self.CameraGroup = classes.objRend.objRend()
-        self.player = sprites.player.player((HRES//2,VRES//2), self.CameraGroup)
+        self.player = sprites.player.player((500, 500), self.CameraGroup)
         self.CameraGroup.set_focal_point(self.player)
         self.map = classes.map.Map()
         self.map.setup_level()
