@@ -2,7 +2,7 @@ import pygame
 
 HRES = 700
 VRES = 500
-TILE_SIZE = 32
+TILE_SIZE = 16
 
 CHUNK_SIZE=8
 

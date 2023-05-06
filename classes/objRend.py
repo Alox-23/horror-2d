@@ -13,7 +13,7 @@ class objRend(pygame.sprite.Group):
         self.screan_shake_time = 0
         self.sprite_rects = []
         self.tiles = []
-        indent = -600
+        indent = 0
         self.render_rect = pygame.Rect(0, 0, HRES//self.scale_factor-indent, VRES//self.scale_factor-indent)
         self.render_rect.center = (HRES//(self.scale_factor+2),VRES//(self.scale_factor+2))
 
@@ -61,7 +61,7 @@ class objRend(pygame.sprite.Group):
             
     def ysort_draw(self):
         obj_rendered = 0
-        for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
+        for sprite in sorted(self.sprites(), key = lambda sprite: sprite.coll_rect.centery):
             if pygame.Rect.colliderect(sprite.rect, self.render_rect):
                 sprite.draw(self.display)
                 obj_rendered += 1

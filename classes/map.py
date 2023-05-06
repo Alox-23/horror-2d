@@ -2,6 +2,7 @@ import pygame
 import random
 import sprites.tiles.grass
 import sprites.tiles.grass1
+import sprites.tiles.tile
 from settings import *
 import os
 import sprites.tree
@@ -83,7 +84,12 @@ class Map:
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
                 ]
         self.plant_dat = []
-        self.create_plant_dat(pygame.math.Vector2(0,0), pygame.math.Vector2(len(self.tile_map[0])*TILE_SIZE, len(self.tile_map)*TILE_SIZE),100)
+        self.load_tile_textures()
+        self.create_plant_dat(pygame.math.Vector2(0,0), 
+                              pygame.math.Vector2(len(self.tile_map[0])*TILE_SIZE, (len(self.tile_map)//2 - 10)*TILE_SIZE),200) 
+
+        self.create_plant_dat(pygame.math.Vector2(0, (len(self.tile_map)//2 + 5)*TILE_SIZE), 
+                              pygame.math.Vector2(len(self.tile_map[0])*TILE_SIZE, len(self.tile_map)*TILE_SIZE),200)
         self.tile_dat = self.create_tile_dat()
         self.plants = self.get_plants()
         self.tiles = self.get_tiles()
@@ -98,14 +104,25 @@ class Map:
 
     def get_tiles(self):
         tiles = []
+        x, y = 0, 0
         for row in self.tile_dat:
             temp_list = []
+            y += 1
             for tile in row:
+                x += 1
                 if tile[1] == 1:
-                    temp_list.append(sprites.tiles.grass.Grass(tile[0]))
+                    if random.randint(0,10) != 1:
+                        temp_list.append(sprites.tiles.tile.Tile(tile[0], self.grass["g"][1]))
+                    elif random.randint(0,2) == 1:
+                        temp_list.append(sprites.tiles.tile.Tile(tile[0], self.grass["g"][0]))
+                    else:
+                        if random.randint(0, 3) != 1:
+                            temp_list.append(sprites.tiles.tile.Tile(tile[0], self.grass["g"][2]))
+                        else:
+                             temp_list.append(sprites.tiles.tile.Tile(tile[0], self.grass["g"][3]))
 
                 elif tile[1] == 0:
-                    temp_list.append(sprites.tiles.grass1.Grass1(tile[0]))
+                    temp_list.append(sprites.tiles.tile.Tile(tile[0], random.choice(self.dirt["d"])))
             tiles.append(temp_list)
         return tiles
     
@@ -133,12 +150,58 @@ class Map:
             tile_dat.append(sorted(temp_row, key=lambda i: i[1]))
         return tile_dat
 
-    def draw_tiles(self, screan):
+    def draw_tiles(self, screan, render_rect):
+        t = 0
         for i in self.tiles:
             for j in i:
-                if j.rect.x > -TILE_SIZE*2 and j.rect.x < HRES+TILE_SIZE and j.rect.y > -TILE_SIZE*2 and j.rect.y < HRES+TILE_SIZE:
+                if pygame.Rect.colliderect(j.rect, render_rect):
                     j.draw(screan)
-                
+                    t += 1
+        print(f"Tile objects rendered: {t}")
+
+    def load_tile_textures(self):
+        sheet_size = (7, 3)
+        self.grass = {"g": []}
+        self.dirt = {"d" : []}
+        self.water = {}
+        self.clif = {}
+        sheet = pygame.image.load("img/TopDownFantasy-Forest/Tiles/Tileset.png")
+        for i in range(sheet_size[1]):
+            y = i * TILE_SIZE
+            for j in range(sheet_size[0]):
+                x = j * TILE_SIZE
+                #grass
+                if j == 5:
+                    self.grass["g"].append(sheet.subsurface(pygame.Rect(x, y, TILE_SIZE, TILE_SIZE)))
+
+                if j < 2:
+                    if i == 0:
+                        if j == 0:
+                            self.grass["elu"] = sheet.subsurface(pygame.Rect(x, y, TILE_SIZE, TILE_SIZE))
+                        elif j == 1:
+                            self.grass["cu"] = sheet.subsurface(pygame.Rect(x, y, TILE_SIZE, TILE_SIZE))
+                        elif j == 2:
+                            self.grass["eru"] = sheet.subsurface(pygame.Rect(x, y, TILE_SIZE, TILE_SIZE))
+
+                    elif i == 1:
+                        if j == 0:
+                            self.grass["elm"] = sheet.subsurface(pygame.Rect(x, y, TILE_SIZE, TILE_SIZE))
+                        elif j == 1:
+                            self.grass["g"].append(sheet.subsurface(pygame.Rect(x, y, TILE_SIZE, TILE_SIZE)))
+                        elif j == 2:
+                            self.grass["erm"] = sheet.subsurface(pygame.Rect(x, y, TILE_SIZE, TILE_SIZE))
+                    elif i == 2:
+                        if j == 0:
+                            self.grass["eld"] = sheet.subsurface(pygame.Rect(x, y, TILE_SIZE, TILE_SIZE))
+                        elif j == 1:
+                            self.grass["cd"] = sheet.subsurface(pygame.Rect(x, y, TILE_SIZE, TILE_SIZE))
+                        elif j == 2:
+                            self.grass["erd"] = sheet.subsurface(pygame.Rect(x, y, TILE_SIZE, TILE_SIZE))
+                #dirt
+                if j > 5:
+                    if i == 0:
+                        if j == 6:
+                            self.dirt["d"].append(sheet.subsurface(pygame.Rect(x, y, TILE_SIZE, TILE_SIZE)))
 
     def update_tiles(self, dx, dy):
         for i in self.tiles:
