@@ -5,8 +5,8 @@ class Tree(sprites.dummy.Dummy):
     def __init__(self, pos, _type):
         super().__init__()
         self.type = _type
-        self.image = pygame.image.load("img/tree.png")
-        self.image.set_colorkey((255, 255, 255))
+        self.image = pygame.image.load("img/tree.png").convert()
+        self.image.set_colorkey((0,0,0))
         self.coll_rect = pygame.Rect(pos, (35, 15))
         self.rect = self.image.get_rect()
         self.rect.center = pos

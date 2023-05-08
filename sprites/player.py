@@ -9,7 +9,7 @@ class player(sprites.dummy.Dummy):
         self.dt = 1
         self.direction = pygame.math.Vector2()
 
-        self.animations = self.load_animation(pygame.image.load("img/player/player1.png"), [48, 48], 6, "idle", "idle2", "idle3", "run", "run_side", "run_up")
+        self.animations = self.load_animation(pygame.image.load("img/player/player1.png").convert_alpha(), [48, 48], 6, "idle", "idle2", "idle3", "run", "run_side", "run_up")
         self.action = "idle"
         self.animation_time = pygame.time.get_ticks()
         self.animation_index = 0
@@ -80,7 +80,7 @@ class player(sprites.dummy.Dummy):
                 self.action = "run_side"
              
     def draw(self, screan):
-        pygame.draw.rect(screan, (255, 0, 0), self.coll_rect)
+        #pygame.draw.rect(screan, (255, 0, 0), self.coll_rect)
         if self.flip.x == -1:
             screan.blit(pygame.transform.flip(self.image, True, False), self.rect)
         else:

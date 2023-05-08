@@ -165,7 +165,7 @@ class Map:
         self.dirt = {"d" : []}
         self.water = {}
         self.clif = {}
-        sheet = pygame.image.load("img/TopDownFantasy-Forest/Tiles/Tileset.png")
+        sheet = pygame.image.load("img/TopDownFantasy-Forest/Tiles/Tileset.png").convert()
         for i in range(sheet_size[1]):
             y = i * TILE_SIZE
             for j in range(sheet_size[0]):
