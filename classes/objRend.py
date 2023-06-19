@@ -7,7 +7,8 @@ class objRend(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
         self.scale_factor = 2
-        self.screan = pygame.display.set_mode((HRES, VRES))
+        flags = pygame.DOUBLEBUF
+        self.screan = pygame.display.set_mode((HRES, VRES), flags, 16)
         self.scroll = pygame.math.Vector2()
         self.delay = 20
         self.screan_shake_time = 0

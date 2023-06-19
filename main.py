@@ -1,9 +1,9 @@
 import pygame
 from settings import *
-import classes.level
+import classes.game
 
 pygame.init()
-game = classes.level.Level()
+game = classes.game.Game()
 running = True
 
 while running:
