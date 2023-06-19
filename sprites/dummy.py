@@ -6,7 +6,6 @@ class Dummy(pygame.sprite.Sprite):
 
     def load_animation(self, sheet, size, items, *animation_types):
         animations = {}
-        sheet.set_colorkey((0,0,0))
         for row in range(len(animation_types)):
             animation_list = []
             y = row*size[1]

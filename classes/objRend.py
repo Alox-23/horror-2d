@@ -14,8 +14,8 @@ class objRend(pygame.sprite.Group):
         self.screan_shake_time = 0
         self.sprite_rects = []
         self.tiles = []
-        indent = 0
-        self.render_rect = pygame.Rect(0, 0, HRES//self.scale_factor-indent, VRES//self.scale_factor-indent)
+        self.indent = 0
+        self.render_rect = pygame.Rect(0, 0, HRES//self.scale_factor-self.indent, VRES//self.scale_factor-self.indent)
         self.render_rect.center = (HRES//(self.scale_factor+2),VRES//(self.scale_factor+2))
 
     def update_scroll(self, shake_intensity = 4):
@@ -54,7 +54,8 @@ class objRend(pygame.sprite.Group):
         self.update() 
 
     def update_display(self):
-        self.render_rect.center = (HRES//(self.scale_factor+2),VRES//(self.scale_factor+2))
+        self.render_rect = pygame.Rect(0, 0, HRES//self.scale_factor-self.indent, VRES//self.scale_factor-self.indent)
+        self.render_rect.center = (HRES//(self.scale_factor*2),VRES//(self.scale_factor*2))
         self.display = pygame.Surface((HRES//self.scale_factor, VRES//self.scale_factor))
 
     def draw(self):

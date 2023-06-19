@@ -6,5 +6,5 @@ TILE_SIZE = 16
 
 CHUNK_SIZE=8
 
-FPS = 120
+FPS = 30
 tFPS = 60
